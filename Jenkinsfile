@@ -15,8 +15,9 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning repository...'
-                    sh 'rm -rf todo-app' // Remove directory before cloning
-                    sh "git clone ${REPO_URL} todo-app" // Clone into 'todo-app' directory
+                    sh 'rm -rf todo-app'
+                    sh "git clone ${REPO_URL} todo-app"
+                    sh 'ls -R todo-app' // Verify directory structure
                 }
             }
         }
@@ -25,8 +26,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building backend and frontend Docker images...'
-                    sh '/usr/local/bin/docker build -t ${BACKEND_IMAGE} todo-app/backend'
-                    sh '/usr/local/bin/docker build -t ${FRONTEND_IMAGE} todo-app/frontend'
+                    sh 'DOCKER_BUILDKIT=1 /usr/local/bin/docker build -t ${BACKEND_IMAGE} todo-app/backend'
+                    sh 'DOCKER_BUILDKIT=1 /usr/local/bin/docker build -t ${FRONTEND_IMAGE} todo-app/frontend'
                 }
             }
         }
