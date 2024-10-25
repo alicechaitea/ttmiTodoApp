@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning repository...'
-                    sh '/bin/sh -c "rm -rf todo-app"'
+                    sh '/bin/sh -c "rm -rf todo-app"'  // Using full path to sh
                     sh "/bin/sh -c 'git clone ${REPO_URL} todo-app'"
                     sh '/bin/sh -c "ls -R todo-app"'
                 }
@@ -34,8 +34,8 @@ pipeline {
             steps {
                 script {
                     echo 'Running service health checks...'
-                    sh '/bin/sh -c "curl -f http://localhost:8000 || exit 1"'
-                    sh '/bin/sh -c "curl -f http://localhost:3000 || exit 1"'
+                    sh '/bin/sh -c "curl -f http://localhost:8000 || exit 1"'  // Backend health check
+                    sh '/bin/sh -c "curl -f http://localhost:3000 || exit 1"'  // Frontend health check
                 }
             }
         }
