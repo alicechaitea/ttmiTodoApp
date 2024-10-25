@@ -7,6 +7,15 @@ pipeline {
     }
 
     stages {
+        stage('Verify PATH') {
+            steps {
+                script {
+                    echo 'Current PATH:'
+                    sh 'echo $PATH'
+                }
+            }
+        }
+
         stage('Navigate to App Directory') {
             steps {
                 dir("${APP_DIR}") {
