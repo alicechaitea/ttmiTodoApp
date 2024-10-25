@@ -16,7 +16,7 @@ pipeline {
                 script {
                     echo 'Cloning repository...'
                     sh 'rm -rf todo-app' // Remove directory before cloning
-                    sh "git clone ${REPO_URL}"
+                    sh "git clone ${REPO_URL} todo-app" // Clone into 'todo-app' directory
                 }
             }
         }
