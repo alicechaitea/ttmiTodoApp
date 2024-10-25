@@ -21,8 +21,9 @@ pipeline {
         stage('Build and Run Docker Services') {
             steps {
                 script {
-                    echo 'Building and running Docker services with docker-compose...'
-                    sh "docker-compose -f ${COMPOSE_FILE} up -d --build"
+                    echo 'Building and running Docker services...'
+                    // Using the simplified Docker CLI syntax
+                    sh "docker compose -f ${COMPOSE_FILE} up -d --build"
                 }
             }
         }
@@ -41,7 +42,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning up Docker containers...'
-                    sh "docker-compose -f ${COMPOSE_FILE} down || true"
+                    sh "docker compose -f ${COMPOSE_FILE} down || true"
                 }
             }
         }
@@ -51,7 +52,7 @@ pipeline {
         always {
             script {
                 echo 'Final cleanup...'
-                sh "docker-compose -f ${COMPOSE_FILE} down || true"
+                sh "docker compose -f ${COMPOSE_FILE} down || true"
             }
         }
     }
