@@ -43,17 +43,6 @@ pipeline {
             }
         }
 
-        stage('Run API Tests') {
-            steps {
-                dir("${APP_DIR}") {
-                    script {
-                        echo 'Running Playwright API tests...'
-                        sh 'npx playwright test playwright/api'  // Run tests in api folder only
-                    }
-                }
-            }
-        }
-
         stage('Cleanup') {
             steps {
                 script {

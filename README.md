@@ -17,8 +17,6 @@ docker compose up -d
 2. Enter web frontend
 
 ```
-http://localhost:3000
-```
 
 3. Enter user/pwd
 
