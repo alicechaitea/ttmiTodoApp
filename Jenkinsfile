@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning repository...'
-                    sh '/bin/sh -c "rm -rf todo-app"'  // Using full path to sh
+                    sh '/bin/sh -c "rm -rf todo-app"'
                     sh "/bin/sh -c 'git clone ${REPO_URL} todo-app'"
                     sh '/bin/sh -c "ls -R todo-app"'
                 }
