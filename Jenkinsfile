@@ -25,8 +25,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building backend and frontend Docker images...'
-                    sh 'docker build -t ${BACKEND_IMAGE} todo-app/backend'
-                    sh 'docker build -t ${FRONTEND_IMAGE} todo-app/frontend'
+                    sh '/usr/local/bin/docker build -t ${BACKEND_IMAGE} todo-app/backend'
+                    sh '/usr/local/bin/docker build -t ${FRONTEND_IMAGE} todo-app/frontend'
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                 script {
                     echo 'Starting backend service...'
                     sh '''
-                    docker run -d --name backend-service -p 8000:8000 \
+                    /usr/local/bin/docker run -d --name backend-service -p 8000:8000 \
                     -e DJANGO_SUPERUSER_USERNAME=${DJANGO_SUPERUSER_USERNAME} \
                     -e DJANGO_SUPERUSER_PASSWORD=${DJANGO_SUPERUSER_PASSWORD} \
                     -e DJANGO_SUPERUSER_EMAIL=${DJANGO_SUPERUSER_EMAIL} \
@@ -54,7 +54,7 @@ pipeline {
                 script {
                     echo 'Starting frontend service...'
                     sh '''
-                    docker run -d --name frontend-service -p 3000:3000 \
+                    /usr/local/bin/docker run -d --name frontend-service -p 3000:3000 \
                     --link backend-service:backend \
                     ${FRONTEND_IMAGE}
                     '''
@@ -76,7 +76,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning up Docker containers...'
-                    sh 'docker rm -f backend-service frontend-service || true'
+                    sh '/usr/local/bin/docker rm -f backend-service frontend-service || true'
                 }
             }
         }
@@ -86,7 +86,7 @@ pipeline {
         always {
             script {
                 echo 'Final cleanup...'
-                sh 'docker rm -f backend-service frontend-service || true'
+                sh '/usr/local/bin/docker rm -f backend-service frontend-service || true'
                 sh 'rm -rf todo-app'
             }
         }
