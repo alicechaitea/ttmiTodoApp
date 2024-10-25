@@ -2,20 +2,31 @@ pipeline {
     agent any
 
     environment {
-        BACKEND_IMAGE = 'ghcr.io/a-thanomsak/todo-app/backend:latest'
-        FRONTEND_IMAGE = 'ghcr.io/a-thanomsak/todo-app/frontend:latest'
+        REPO_URL = 'https://github.com/alicechaitea/ttmiTodoApp.git'
+        BACKEND_IMAGE = 'todo-app-backend:latest'
+        FRONTEND_IMAGE = 'todo-app-frontend:latest'
         DJANGO_SUPERUSER_USERNAME = 'admin'
         DJANGO_SUPERUSER_PASSWORD = 'test1234'
         DJANGO_SUPERUSER_EMAIL = 'admin@example.com'
     }
 
     stages {
-        stage('Pull Docker Images') {
+        stage('Clone Repository') {
             steps {
                 script {
-                    echo 'Pulling backend and frontend Docker images...'
-                    sh 'docker pull ${BACKEND_IMAGE}'
-                    sh 'docker pull ${FRONTEND_IMAGE}'
+                    echo 'Cloning repository...'
+                    sh 'rm -rf ttmiTodoApp'
+                    sh "git clone ${REPO_URL}"
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    echo 'Building backend and frontend Docker images...'
+                    sh 'docker build -t ${BACKEND_IMAGE} ttmiTodoApp/backend'
+                    sh 'docker build -t ${FRONTEND_IMAGE} ttmiTodoApp/frontend'
                 }
             }
         }
@@ -76,6 +87,7 @@ pipeline {
             script {
                 echo 'Final cleanup...'
                 sh 'docker rm -f backend-service frontend-service || true'
+                sh 'rm -rf ttmiTodoApp'
             }
         }
     }
