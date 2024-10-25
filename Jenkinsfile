@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     echo 'Current PATH:'
-                    sh 'echo $PATH'
+                    sh '#!/bin/bash\necho $PATH'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     echo 'Building and running Docker services with docker compose...'
-                    sh "docker compose -f ${COMPOSE_FILE} up -d --build"
+                    sh '#!/bin/bash\ndocker compose -f ${COMPOSE_FILE} up -d --build'
                 }
             }
         }
@@ -37,8 +37,8 @@ pipeline {
             steps {
                 script {
                     echo 'Running service health checks...'
-                    sh 'curl -f http://localhost:8000 || exit 1'  // Backend health check
-                    sh 'curl -f http://localhost:3000 || exit 1'  // Frontend health check
+                    sh '#!/bin/bash\ncurl -f http://localhost:8000 || exit 1'  // Backend health check
+                    sh '#!/bin/bash\ncurl -f http://localhost:3000 || exit 1'  // Frontend health check
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning up Docker containers...'
-                    sh "docker compose -f ${COMPOSE_FILE} down || true"
+                    sh '#!/bin/bash\ndocker compose -f ${COMPOSE_FILE} down || true'
                 }
             }
         }
@@ -57,7 +57,7 @@ pipeline {
         always {
             script {
                 echo 'Final cleanup...'
-                sh "docker compose -f ${COMPOSE_FILE} down || true"
+                sh '#!/bin/bash\ndocker compose -f ${COMPOSE_FILE} down || true'
             }
         }
     }
