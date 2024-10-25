@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/alicechaitea/ttmiTodoApp.git'
+        REPO_URL = 'https://github.com/alicechaitea/todo-app.git'
         BACKEND_IMAGE = 'todo-app-backend:latest'
         FRONTEND_IMAGE = 'todo-app-frontend:latest'
         DJANGO_SUPERUSER_USERNAME = 'admin'
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning repository...'
-                    sh 'rm -rf todo-app'
+                    sh 'rm -rf todo-app' // Remove directory before cloning
                     sh "git clone ${REPO_URL}"
                 }
             }
