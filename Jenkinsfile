@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/alicechaitea/aliceChaiTea.git'
+        REPO_URL = 'https://github.com/alicechaitea/ttmiTodoApp.git'
         BACKEND_IMAGE = 'todo-app-backend:latest'
         FRONTEND_IMAGE = 'todo-app-frontend:latest'
         DJANGO_SUPERUSER_USERNAME = 'admin'
