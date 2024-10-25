@@ -1,0 +1,9 @@
+- api testing results via Playwright are unremarkable
+- e2e testing results via Playwright are somewhat clunky
+    > several buttons intended to submit information are required to double click
+    > various buttons are unclickable
+    > random error toast messages pops up during UAT, but doesn't necessarily blocks user from proceeding
+    > unable to create a new todo list without filling in the description (optional) field
+    > Login ID (email) but user is required to enter username not email
+    > password creation criteria is non-existent
+    
