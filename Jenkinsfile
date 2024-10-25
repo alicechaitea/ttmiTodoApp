@@ -4,9 +4,6 @@ pipeline {
     environment {
         APP_DIR = '/Users/alicechaiyakul/todo-app'
         COMPOSE_FILE = '/Users/alicechaiyakul/todo-app/compose.yml'
-        DJANGO_SUPERUSER_USERNAME = 'admin'
-        DJANGO_SUPERUSER_PASSWORD = 'test1234'
-        DJANGO_SUPERUSER_EMAIL = 'admin@example.com'
     }
 
     stages {
@@ -21,9 +18,8 @@ pipeline {
         stage('Build and Run Docker Services') {
             steps {
                 script {
-                    echo 'Building and running Docker services...'
-                    // Using the simplified Docker CLI syntax
-                    sh "docker compose up -d"
+                    echo 'Building and running Docker services with docker compose...'
+                    sh "docker compose -f ${COMPOSE_FILE} up -d --build"
                 }
             }
         }
