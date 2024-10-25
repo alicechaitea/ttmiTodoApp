@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/alicechaitea/ttmiTodoApp.git'
+        REPO_URL = 'https://github.com/alicechaitea/todo-app.git'
         BACKEND_IMAGE = 'todo-app-backend:latest'
         FRONTEND_IMAGE = 'todo-app-frontend:latest'
         DJANGO_SUPERUSER_USERNAME = 'admin'
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cloning repository...'
-                    sh 'rm -rf ttmiTodoApp'
+                    sh 'rm -rf todo-app'
                     sh "git clone ${REPO_URL}"
                 }
             }
@@ -25,8 +25,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building backend and frontend Docker images...'
-                    sh 'docker build -t ${BACKEND_IMAGE} ttmiTodoApp/backend'
-                    sh 'docker build -t ${FRONTEND_IMAGE} ttmiTodoApp/frontend'
+                    sh 'docker build -t ${BACKEND_IMAGE} todo-app/backend'
+                    sh 'docker build -t ${FRONTEND_IMAGE} todo-app/frontend'
                 }
             }
         }
@@ -87,7 +87,7 @@ pipeline {
             script {
                 echo 'Final cleanup...'
                 sh 'docker rm -f backend-service frontend-service || true'
-                sh 'rm -rf ttmiTodoApp'
+                sh 'rm -rf todo-app'
             }
         }
     }
