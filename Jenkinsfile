@@ -23,7 +23,7 @@ pipeline {
                 script {
                     echo 'Building and running Docker services...'
                     // Using the simplified Docker CLI syntax
-                    sh "docker compose -f ${COMPOSE_FILE} up -d --build"
+                    sh "docker compose up -d"
                 }
             }
         }
