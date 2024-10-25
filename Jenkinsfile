@@ -12,12 +12,12 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                script {
-                    echo 'Cloning repository...'
-                    sh '/bin/bash -c "rm -rf todo-app"'  // Using full path to bash
-                    sh "/bin/bash -c 'git clone ${REPO_URL} todo-app'"
-                    sh '/bin/bash -c "ls -R todo-app"'
-                }
+                checkout([
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']], 
+                    userRemoteConfigs: [[url: "${REPO_URL}"]]
+                ])
+                echo 'Repository cloned successfully.'
             }
         }
 
@@ -25,7 +25,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building and running Docker services with docker-compose...'
-                    sh "/bin/bash -c '/usr/local/bin/docker-compose -f ${COMPOSE_FILE} up -d --build'"
+                    // Executes docker-compose command directly
+                    sh "docker-compose -f ${COMPOSE_FILE} up -d --build"
                 }
             }
         }
@@ -34,8 +35,9 @@ pipeline {
             steps {
                 script {
                     echo 'Running service health checks...'
-                    sh '/bin/bash -c "curl -f http://localhost:8000 || exit 1"'  // Backend health check
-                    sh '/bin/bash -c "curl -f http://localhost:3000 || exit 1"'  // Frontend health check
+                    // Health checks
+                    sh 'curl -f http://localhost:8000 || exit 1'  // Backend health check
+                    sh 'curl -f http://localhost:3000 || exit 1'  // Frontend health check
                 }
             }
         }
@@ -44,7 +46,7 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning up Docker containers...'
-                    sh "/bin/bash -c '/usr/local/bin/docker-compose -f ${COMPOSE_FILE} down || true'"
+                    sh "docker-compose -f ${COMPOSE_FILE} down || true"
                 }
             }
         }
@@ -54,8 +56,7 @@ pipeline {
         always {
             script {
                 echo 'Final cleanup...'
-                sh "/bin/bash -c '/usr/local/bin/docker-compose -f ${COMPOSE_FILE} down || true'"
-                sh '/bin/bash -c "rm -rf todo-app"'
+                sh "docker-compose -f ${COMPOSE_FILE} down || true"
             }
         }
     }
