@@ -1,0 +1,8 @@
+Suggested Improvements:
+- Passwords are not secured, at least there should be one capital letter,
+lower case letter, a number, and a special character where the total
+character count should not be lower than 8
+- All elements should include a unique ID to accommodate testing automation
+- Unify format of text throughout the app for an enhanced professional look
+- Add a brief explanation regarding the app for users
+- Schedule a routine code refactoring slot for the development team
